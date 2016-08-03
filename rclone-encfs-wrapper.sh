@@ -52,8 +52,10 @@ fi
 echo "mounting reverse encfs dir"
 ENCFS6_CONFIG=$ENCFS_CONFIG encfs --reverse --extpass="cat $ENCFS_PASSWORD" $SOURCECLEARTEXT $DATAENCRYPTED
 
-# testing access
-# TODO add check to fail if this fails
 rclone mkdir "$RCLONE_REMOTE":/"$RCLONE_PATH"
+if [ $? -ne 0 ]; then
+	echo "Could not check the remote path. Did you configure the correct 'remote' in rclone?"
+	exit 1
+fi
 
 rclone --verbose --transfers=1 copy $DATAENCRYPTED "$RCLONE_REMOTE":/"$RCLONE_PATH"
