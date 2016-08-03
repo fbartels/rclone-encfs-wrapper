@@ -1,0 +1,5 @@
+SOURCECLEARTEXT=/media/fozzie/Video		# local directory that should be backed up
+RCLONE_REMOTE="acd"				# name of the remote configured in rclone
+RCLONE_PATH="backup"				# directory at cloud provider, will be created if it does not exist
+ENCFS_PASSWORD=$HOME/.config/encfs-password
+ENCFS_CONFIG=$HOME/.config/encfs-cloud.xml
