@@ -2,8 +2,7 @@
 
 function finish {
 	# unmount the encfs dir on exit
-	fusermount -u $DATAENCRYPTED
-	sleep 3
+	mountpoint -q $DATAENCRYPTED && fusermount -u $DATAENCRYPTED && sleep 3
 	rmdir $DATAENCRYPTED
 }
 trap finish INT TERM EXIT
@@ -57,5 +56,9 @@ if [ $? -ne 0 ]; then
 	echo "Could not check the remote path. Did you configure the correct 'remote' in rclone?"
 	exit 1
 fi
+
+# TODO implement exclude list
+#EXCLUDES="test.sql text.sql"
+#EXCLUDES_ENCRYPTED=$(ENCFS6_CONFIG=$ENCFS_CONFIG encfsctl encode --extpass="cat $ENCFS_PASSWORD" $SOURCECLEARTEXT $EXCLUDES)
 
 rclone --verbose --transfers=1 copy $DATAENCRYPTED "$RCLONE_REMOTE":/"$RCLONE_PATH"
