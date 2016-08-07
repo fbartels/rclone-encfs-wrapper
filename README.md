@@ -11,6 +11,7 @@ The script requires that encfs and [rclone](https://github.com/ncw/rclone) are a
 ## Configuration
 Additionally the ```config-example``` file has to be renamed to ```config``` and adapted to the local environment.
 
+
 ```
 SOURCECLEARTEXT=/backup/data                    # local directory that should be backed up
 RCLONE_REMOTE="acd"                             # name of the remote configured in rclone
@@ -19,3 +20,9 @@ ENCFS_PASSWORD=$HOME/.config/encfs-password
 ENCFS_CONFIG=$HOME/.config/encfs-cloud.xml
 ```
 ```RCLONE_REMOTE``` must be the name of a valid configured storage provider (you can configure multiple storage providers in rclone). Please make a separate Backup of ```ENCFS_PASSWORD``` and ```ENCFS_CONFIG```, since you cannot access your offsite data without these. These both files will be automatically created on the first run of the script.
+
+If you are running multiple backup jobs from the same machine the you can also specify a different configuration at runtime. The syntax is as followed:
+
+```
+BACKUP_CONFIG=config-test ./rclone-encfs-wrapper.sh
+```

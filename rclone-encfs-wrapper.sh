@@ -17,8 +17,13 @@ if [ ! "$(which rclone)" ]; then
 	exit 1
 fi
 
-if [ -e config ]; then
-	source config
+# if a config file has been specified with BACKUP_CONFIG=myfile use this one, otherwise default to config
+if [[ ! -n "$BACKUP_CONFIG" ]]; then
+	BACKUP_CONFIG=config
+fi
+
+if [ -e $BACKUP_CONFIG ]; then
+	source $BACKUP_CONFIG
 else
 	echo "you have to create a config file first"
 	exit 1
