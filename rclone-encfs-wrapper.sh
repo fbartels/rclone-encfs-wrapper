@@ -7,15 +7,15 @@ function finish {
 }
 trap finish INT TERM EXIT
 
-if [ ! "$(which encfs)" ]; then
-	echo "encfs is not installed"
-	exit 1
-fi
-if [ ! "$(which rclone)" ]; then
-	echo "rclone is not installed"
-	echo "http://rclone.org/install/"
-	exit 1
-fi
+## Defaults
+
+SOURCECLEARTEXT=/backup/data                    # local directory that should be backed up
+RCLONE_REMOTE="acd"                             # name of the remote configured in rclone
+RCLONE_PATH="backup"                            # directory at cloud provider, will be created if it does not exist
+ENCFS_PASSWORD=$HOME/.config/encfs-password
+ENCFS_CONFIG=$HOME/.config/encfs-cloud.xml
+
+## no need to change anything below
 
 # if a config file has been specified with BACKUP_CONFIG=myfile use this one, otherwise default to config
 if [[ ! -n "$BACKUP_CONFIG" ]]; then
@@ -23,12 +23,23 @@ if [[ ! -n "$BACKUP_CONFIG" ]]; then
 fi
 
 if [ -e $BACKUP_CONFIG ]; then
+	echo "using config from file: $BACKUP_CONFIG"
 	source $BACKUP_CONFIG
-else
-	echo "you have to create a config file first"
+fi
+
+# check dependencies
+if [ ! "$(which encfs)" ]; then
+	echo "encfs is not installed"
 	exit 1
 fi
 
+if [ ! "$(which rclone)" ]; then
+	echo "rclone is not installed"
+	echo "http://rclone.org/install/"
+	exit 1
+fi
+
+# script logic begins here
 export DATAENCRYPTED=$(mktemp -d)
 
 create_encfs(){
