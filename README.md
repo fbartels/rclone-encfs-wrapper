@@ -3,7 +3,7 @@ Wrapper script that uses an encfs reverse mount to encrypt before upload.
 
 PLEASE NOTICE: EncFS is regarded as potentially unsecure, since an attacker that has multiple copies of the same scnrypted file might be able to calculate the encryption key. Please see https://defuse.ca/audits/encfs.htm for more information.
 
-I have put some words of reasoning behind this wrapper into a [blog post](http://blog.host-consultants.de/2016/08/backups-in-die-amazon-cloud-schieben/) (in german).
+I have put some words of reasoning behind this wrapper into a [blog post](http://blog.host-consultants.de/2016/08/backups-in-die-amazon-cloud-schieben/) (in german). If you are looking for a way to mount your cloud backup have a look at my [mount-encfs-cloud](https://github.com/fbartels/mount-encfs-cloud) script.
 
 # Setup & usage
 The script requires that encfs and [rclone](https://github.com/ncw/rclone) are already installed, [rclone is configured](http://rclone.org/docs/) and will fail if these requirements are not met.
